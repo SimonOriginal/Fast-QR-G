@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
+import webbrowser
 import qrcode as qr
 from PIL import Image, ImageTk
 import glob
 
-theme = ('LightGreen6')
-sg.theme(theme)
+
+sg.theme('LightGreen6')
 
 def qrmaker(code):
     qr_img = qr.make(str(code))
@@ -50,28 +51,28 @@ def make_win1():
 
 
 def make_win2():
-    layout = [[sg.Text('Программа створена Безрученко Семеном')],
-             [sg.Text('Студентом 481 групи')],
-              [sg.Text('Для курсового проекуту за темою:')],
-              [sg.Text('"Автоматичне формування QR-кодів."')]]
-    return sg.Window('О программе', layout, finalize=True)
+    sg.theme('Reddit')
+    font=("Arial", 12)
+    
+    layout = [[sg.Text("Программа створена Безрученко Семеном,",font=font)],
+              [sg.Text("cтудентом 481 групи.",font=font)],
+              [sg.Text("Для курсового проекуту за темою:",font=font)],
+              [sg.Text("Автоматичне формування QR-кодів.",font=font)],[sg.Button('Мой GitHub', size=(14, 1), key=('GitHub'),font=("Arial", 11))]]
 
-window1, window2 = make_win1(), None      
+    return sg.Window('О программе', layout,  finalize=True)
+
+window1, window2 = make_win1(), None        
 images = []
 location = 0
-while True:             
+while True:             # Event Loop
     window, event, values = sg.read_all_windows()
     if event == sg.WIN_CLOSED:
         window.close()
-        
         if window == window2:       
             window2 = None
-        elif window == window1:    
+        elif window == window1:     
             break
-        elif event == 'Моя::Litel':
-            theme = 'DarkGrey6'
-        window.read()
-
+        
     elif event == 'О программе' and not window2:
         window2 = make_win2()
         
@@ -101,10 +102,12 @@ while True:
         else:
             location -= 1
         load_image(images[location], window)
-        
+
     if event == 'Очистить':
         window['-qr_data-'].update('')
         window['-qr_name-'].update('')
         window['-qr_img-'].update('')
-
+    if event == 'GitHub':
+         webbrowser.open_new_tab('https://github.com/SimonW0rk/Fast-QR-G.git')
+        
 window.close()
