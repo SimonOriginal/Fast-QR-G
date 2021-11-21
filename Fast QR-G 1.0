@@ -5,8 +5,6 @@ from PIL import Image, ImageTk
 import glob
 
 
-sg.theme('LightGreen6')
-
 def qrmaker(code):
     qr_img = qr.make(str(code))
     qr_img.save('temp.png',format="png")
@@ -26,9 +24,13 @@ def load_image(path, window):
     except:
         print(f"Unable to open {path}!")
 
+    
 
 def make_win1():
-    menu_def = [['Настройки', ['Тема', ['Cветлая::white', 'Темная::Dark','Моя::Litel'],['О программе']]]]
+    
+    sg.theme('LightGreen6')
+    
+    menu_def = [['Настройки',['О программе']]]
     menu = [[sg.Menu(menu_def, key='-MENU-', text_color='black', background_color='white')]]
     element_user = [[sg.Text('Введите текст:', font=("Helvetica", 14))],
                 [sg.Multiline(size=(60, 4), key='-qr_data-')],
@@ -43,11 +45,14 @@ def make_win1():
                  sg.Button("Следующий",size=(14, 1), font=("Helvetica", 12))]]
 
     element_viewer = [[sg.Image(key='-qr_img-')]]
+    
     layout = [[sg.Column(menu),
            sg.Column(element_user),
            sg.VSeperator(),
            sg.Column(element_viewer)]]
+    
     return sg.Window('Fast QR-G', layout, location=(500,200), finalize=True)
+
 
 
 def make_win2():
@@ -65,15 +70,19 @@ def make_win2():
 window1, window2 = make_win1(), None        
 images = []
 location = 0
-while True:             # Event Loop
+
+
+
+while True:             
     window, event, values = sg.read_all_windows()
     if event == sg.WIN_CLOSED:
         window.close()
+        
         if window == window2:       
             window2 = None
         elif window == window1:     
             break
-        
+
     elif event == 'О программе' and not window2:
         window2 = make_win2()
         
