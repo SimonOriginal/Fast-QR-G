@@ -57,7 +57,8 @@ def make_win2():
     layout = [[sg.Text("Программа створена Безрученко Семеном,",font=font)],
               [sg.Text("cтудентом 481 групи.",font=font)],
               [sg.Text("Для курсового проекуту за темою:",font=font)],
-              [sg.Text("Автоматичне формування QR-кодів.",font=font)],[sg.Button('Мой GitHub', size=(14, 1), key=('GitHub'),font=("Arial", 11))]]
+              [sg.Text("Автоматичне формування QR-кодів.",font=font)],
+              [sg.Button('Мой GitHub', size=(14, 1), key=('GitHub'),font=("Arial", 11),button_color=('black', 'yellow'))]]
 
     return sg.Window('О программе', layout,  finalize=True)
 
